@@ -27,6 +27,7 @@ class SDLThread:
         self.panel.color_button.Bind(wx.EVT_BUTTON, self.color_event)
         self.panel.save_button.Bind(wx.EVT_BUTTON, self.save_event)
         self.panel.open_button.Bind(wx.EVT_BUTTON, self.open_event)
+        self.panel.listBox.Bind(wx.EVT_BUTTON, self.tuceng_event)
 
     def add_point(self, pos):
         if len(self.lines) > 0:
@@ -205,16 +206,20 @@ class MyFrame(wx.Frame):
     def __init__(self, parent, panel_id, title, panel_size, win_size):
         wx.Frame.__init__(self, parent, panel_id, title, size=win_size)
         self.SetMaxSize(win_size)
+        SampleList=["background","1","2","3"]
         self.choose_button = wx.Button(self, label="选择", pos=(10, 610), size=(70, 30))
         self.draw_button = wx.Button(self, label="撤销", pos=(90, 610), size=(70, 30))
         self.identify_button = wx.Button(self, label="识别", pos=(170, 610), size=(70, 30))
         self.color_button = wx.Button(self, label="颜色", pos=(250, 610), size=(70, 30))
-        self.input_box = wx.TextCtrl(self, -1, '', pos=(330, 610), size=(210, 30))
-        self.save_button = wx.Button(self, label="保存", pos=(550, 610), size=(70, 30))
-        self.open_button = wx.Button(self, label="打开", pos=(630, 610), size=(70, 30))
-        self.info_box = wx.TextCtrl(self,  -1, '', pos=(0, 650), size=(win_size[0], 30))
-        self.info_box.SetEditable(False)
+       # self.input_box = wx.TextCtrl(self, -1, '', pos=(330, 610), size=(210, 30))
+        self.save_button = wx.Button(self, label="保存", pos=(410, 610), size=(70, 30))
+        self.open_button = wx.Button(self, label="打开", pos=(490, 610), size=(70, 30))
+        #self.info_box = wx.TextCtrl(self,  -1, '', pos=(0, 650), size=(win_size[0], 30))
+       # self.info_box.SetEditable(False)
         self.pnlSDL = SDLPanel(self, -1, panel_size)
+        self.listBox = wx.ListBox(self.pnlSDL, -1,(330,620),(80,120), SampleList,wx.LB_SINGLE)
+        self.listBox.SetSelection(3)
+
 
     def get_input(self):
         return self.input_box.GetValue()
@@ -230,7 +235,7 @@ class MyFrame(wx.Frame):
 
 def main():
     app = wx.App()
-    frame = MyFrame(None, wx.ID_ANY, "PY画板", (800, 600), (810, 715))
+    frame = MyFrame(None, wx.ID_ANY, "DrawingBoard", (600, 600), (815, 715))
     frame.Show()
     app.MainLoop()
 

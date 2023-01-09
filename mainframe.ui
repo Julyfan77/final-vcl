@@ -129,29 +129,15 @@
     <string>文字</string>
    </property>
   </widget>
-  <widget class="QScrollArea" name="scrollArea">
-   <property name="geometry">
-    <rect>
-     <x>420</x>
-     <y>230</y>
-     <width>120</width>
-     <height>171</height>
-    </rect>
+  <action name="choose_action">
+   <property name="icon">
+    <iconset>
+     <normaloff>Icon/OIP-C.png</normaloff>Icon/OIP-C.png</iconset>
    </property>
-   <property name="widgetResizable">
-    <bool>true</bool>
+   <property name="text">
+    <string>选择</string>
    </property>
-   <widget class="QWidget" name="scrollAreaWidgetContents">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>118</width>
-      <height>169</height>
-     </rect>
-    </property>
-   </widget>
-  </widget>
+  </action>
  </widget>
  <resources/>
  <connections/>

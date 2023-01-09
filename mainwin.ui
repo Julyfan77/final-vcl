@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>LeftToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="open_action"/>
+   <addaction name="save_action"/>
+   <addaction name="separator"/>
+   <addaction name="choose_action"/>
+   <addaction name="color_action"/>
+  </widget>
+  <action name="choose_action">
+   <property name="icon">
+    <iconset>
+     <normaloff>Icon/arrow.png</normaloff>Icon/arrow.png</iconset>
+   </property>
+   <property name="text">
+    <string>选择</string>
+   </property>
+  </action>
+  <action name="open_action">
+   <property name="icon">
+    <iconset>
+     <normaloff>Icon/Folder.png</normaloff>Icon/Folder.png</iconset>
+   </property>
+   <property name="text">
+    <string>打开</string>
+   </property>
+   <property name="toolTip">
+    <string>新建</string>
+   </property>
+  </action>
+  <action name="save_action">
+   <property name="icon">
+    <iconset>
+     <normaloff>Icon/saving.png</normaloff>Icon/saving.png</iconset>
+   </property>
+   <property name="text">
+    <string>保存</string>
+   </property>
+  </action>
+  <action name="color_action">
+   <property name="icon">
+    <iconset>
+     <normaloff>Icon/board.png</normaloff>Icon/board.png</iconset>
+   </property>
+   <property name="text">
+    <string>取色</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="img_rcc.qrc"/>
+ </resources>
+ <connections/>
+</ui>

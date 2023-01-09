@@ -1,0 +1,13 @@
+<!DOCTYPE RCC><RCC version="1.0"> 
+ <qresource prefix="/Icon">
+    <file alias="Line.png">./Icon/Line.png</file>
+	<file alias="Circle.png">./Icon/Circle.png</file>
+	<file alias="Hexagon.png">./Icon/Hexagon.png</file>
+	<file alias="Folder.png">./Icon/Folder.png</file>
+	<file alias="clear.png">./Icon/clear.png</file>
+	<file alias="board.png">./Icon/board.png</file>
+	<file alias="Fill.png">./Icon/Fill.png</file>
+	<file alias="Add.png">./Icon/Add.png</file>
+	<file alias="Edit.png">./Icon/Edit.png</file>
+  </qresource>
+</RCC>

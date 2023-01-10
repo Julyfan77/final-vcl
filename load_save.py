@@ -3,6 +3,7 @@ import cv2
 import cv2 as cv
 import numpy as np
 import matplotlib.pyplot as plt
+import hashlib
 class img:
     def __init__(self, win):
         #self.pro = ImgProcess()
@@ -32,4 +33,4 @@ class img:
     def img_show(self):
         self.ImgPath = self.f_msg()
         self.window.board.load_img(self.ImgPath)
-        self.window.board.pixmap.show()
+        

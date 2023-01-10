@@ -9,15 +9,14 @@ from PyQt5.QtGui import QColor, QImage
 class PaintBoard(QWidget):
     def __init__(self):
         QWidget.__init__(self)
-
-        # self.label = QLabel(self)
+        self.lbl=QLabel("图片",self)
+       
         # self.gridLayout = QGridLayout(self)
         # self.gridLayout.addWidget(self.label)
-        self.lb=QLabel()
-        self.pixmap = QPixmap()
-        self.pixmap.fill(Qt.white)
+        self.pixmap = QPixmap(1,1)
+        self.pixmap.fill(Qt.black)
         self.img = QImage(self.pixmap.toImage())
-
+        self.lbl.setPixmap(self.pixmap)
         # self.label.setFrameShape(1)
         # # self.label.setPixmap(self.pixmap)
         # self.label.setScaledContents(True)
@@ -26,6 +25,7 @@ class PaintBoard(QWidget):
         self.pen = QPainter()
         
     def paintEvent(self, paintEvent):
+        print("paint event !!!")
         self.pixmap = self.pixmap.scaled(self.width(), self.height())
         self.pen.begin(self)
         # self.pen.drawPixmap(0, 0, self.pixmap)
@@ -34,6 +34,13 @@ class PaintBoard(QWidget):
         self.pen.end()
 
     def load_img(self, img):
-        self.pixmap.load(img)
+        self.pixmap=QPixmap(img)
+        self.lbl.setPixmap(self.pixmap)
+        #self.show()
         self.update()
+        
         print(img)
+    def myRemovePic(self):
+        self.lbl.setPixmap(QPixmap(""))
+    def myAddPic(self):
+        self.lbl.setPixmap(self.pixmap)

@@ -12,6 +12,7 @@ class main_win(QMainWindow):
         self.main_ui = Ui_MainWindow()
         self.main_ui.setupUi(self)
         self.board = PaintBoard()
+        self.main_ui.gridLayout.addWidget(self.board)
         self.setAttribute(Qt.WA_DeleteOnClose)
 
     def closeEvent(self, *args, **kwargs):

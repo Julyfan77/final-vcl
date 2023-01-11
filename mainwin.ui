@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>605</height>
+    <width>816</width>
+    <height>614</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,12 +18,36 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>0</y>
+      <y>10</y>
       <width>651</width>
-      <height>561</height>
+      <height>571</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout"/>
+   </widget>
+   <widget class="QWidget" name="gridLayoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>10</y>
+      <width>101</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="colorboard"/>
+   </widget>
+   <widget class="QScrollBar" name="verticalScrollBar">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>360</y>
+      <width>16</width>
+      <height>160</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -31,10 +55,30 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>816</width>
      <height>22</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuMyBrush">
+    <property name="title">
+     <string>MyBrush</string>
+    </property>
+    <addaction name="actionpencil"/>
+    <addaction name="actionpen"/>
+    <addaction name="actionbrush"/>
+   </widget>
+   <widget class="QMenu" name="menuWidth">
+    <property name="title">
+     <string>Width</string>
+    </property>
+    <addaction name="action1"/>
+    <addaction name="action2"/>
+    <addaction name="action3"/>
+    <addaction name="action4"/>
+    <addaction name="action5"/>
+   </widget>
+   <addaction name="menuMyBrush"/>
+   <addaction name="menuWidth"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
@@ -51,6 +95,18 @@
    <addaction name="save_action"/>
    <addaction name="separator"/>
    <addaction name="choose_action"/>
+   <addaction name="color_action"/>
+   <addaction name="separator"/>
+   <addaction name="line_action"/>
+   <addaction name="circle_action"/>
+   <addaction name="rec_action"/>
+   <addaction name="curve_action"/>
+   <addaction name="separator"/>
+   <addaction name="caijian_action"/>
+   <addaction name="pingyi_action"/>
+   <addaction name="rotate_action"/>
+   <addaction name="actionplus"/>
+   <addaction name="actionminus"/>
   </widget>
   <widget class="QToolBar" name="toolBar_2">
    <property name="windowTitle">
@@ -62,7 +118,6 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="color_action"/>
   </widget>
   <action name="choose_action">
    <property name="icon">
@@ -95,8 +150,136 @@
    </property>
   </action>
   <action name="color_action">
+   <property name="icon">
+    <iconset>
+     <normaloff>Icon/board.png</normaloff>Icon/board.png</iconset>
+   </property>
    <property name="text">
     <string>取色</string>
+   </property>
+  </action>
+  <action name="line_action">
+   <property name="icon">
+    <iconset>
+     <normaloff>Icon/drawLine.png</normaloff>Icon/drawLine.png</iconset>
+   </property>
+   <property name="text">
+    <string>线</string>
+   </property>
+   <property name="toolTip">
+    <string>画线</string>
+   </property>
+  </action>
+  <action name="circle_action">
+   <property name="icon">
+    <iconset>
+     <normaloff>Icon/drawCircle.png</normaloff>Icon/drawCircle.png</iconset>
+   </property>
+   <property name="text">
+    <string>画圆</string>
+   </property>
+  </action>
+  <action name="rec_action">
+   <property name="icon">
+    <iconset>
+     <normaloff>Icon/drawRect.png</normaloff>Icon/drawRect.png</iconset>
+   </property>
+   <property name="text">
+    <string>画矩形</string>
+   </property>
+  </action>
+  <action name="curve_action">
+   <property name="icon">
+    <iconset>
+     <normaloff>Icon/drawCurve.png</normaloff>Icon/drawCurve.png</iconset>
+   </property>
+   <property name="text">
+    <string>curve</string>
+   </property>
+  </action>
+  <action name="actionplus">
+   <property name="icon">
+    <iconset>
+     <normaloff>Icon/plus.png</normaloff>Icon/plus.png</iconset>
+   </property>
+   <property name="text">
+    <string>plus</string>
+   </property>
+  </action>
+  <action name="actionminus">
+   <property name="icon">
+    <iconset>
+     <normaloff>Icon/minus.png</normaloff>Icon/minus.png</iconset>
+   </property>
+   <property name="text">
+    <string>minus</string>
+   </property>
+  </action>
+  <action name="pingyi_action">
+   <property name="icon">
+    <iconset>
+     <normaloff>Icon/Move.png</normaloff>Icon/Move.png</iconset>
+   </property>
+   <property name="text">
+    <string>pingyi</string>
+   </property>
+  </action>
+  <action name="rotate_action">
+   <property name="icon">
+    <iconset>
+     <normaloff>Icon/Rotate.png</normaloff>Icon/Rotate.png</iconset>
+   </property>
+   <property name="text">
+    <string>rotate</string>
+   </property>
+  </action>
+  <action name="caijian_action">
+   <property name="icon">
+    <iconset>
+     <normaloff>Icon/ChooseRect.png</normaloff>Icon/ChooseRect.png</iconset>
+   </property>
+   <property name="text">
+    <string>caijian</string>
+   </property>
+  </action>
+  <action name="actionpencil">
+   <property name="text">
+    <string>pencil</string>
+   </property>
+  </action>
+  <action name="actionpen">
+   <property name="text">
+    <string>pen</string>
+   </property>
+  </action>
+  <action name="actionbrush">
+   <property name="text">
+    <string>brush</string>
+   </property>
+  </action>
+  <action name="action1">
+   <property name="text">
+    <string>1</string>
+   </property>
+  </action>
+  <action name="action2">
+   <property name="text">
+    <string>2</string>
+   </property>
+  </action>
+  <action name="action3">
+   <property name="text">
+    <string>3</string>
+   </property>
+  </action>
+  <action name="action4">
+   <property name="text">
+    <string>4</string>
+   </property>
+  </action>
+  <action name="action5">
+   <property name="text">
+    <string>5</string>
    </property>
   </action>
  </widget>

@@ -6,7 +6,7 @@ from PyQt5.QtGui import QColor
 import sys 
 
 class ColorDialog ( QWidget): 
-    def __init__(self,x,y ): 
+    def __init__(self,x,y ,cb): 
         super().__init__() 
         #颜色值
         color = QColor(0, 0, 0) 
@@ -26,12 +26,16 @@ class ColorDialog ( QWidget):
         self.widget.setStyleSheet('QWidget{background-color:%s} '%color.name()) 
         #取色框大小
         self.widget.setGeometry(210, 20, 400, 100) 
-        
+        self.cb=cb
     def showDialog(self): 
-        col = QColorDialog.getColor() 
-        print(col.name(),"\n")
+        col = QColorDialog.getColor()
+        #print(type(col))
+        #print(col.name(),"\n")
         if col.isValid(): 
             self.widget.setStyleSheet('QWidget {background-color:%s}'%col.name()) 
+            self.cb.color=col
+            self.cb.load_color(col)
+        
     
 # if __name__ == "__main__": 
 #     app = QApplication(sys.argv) 

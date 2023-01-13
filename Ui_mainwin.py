@@ -154,6 +154,11 @@ class Ui_MainWindow(object):
         self.brushstyle3.setObjectName("brushstyle3")
         self.brushstyle4 = QtWidgets.QAction(MainWindow)
         self.brushstyle4.setObjectName("brushstyle4")
+        self.undo_action = QtWidgets.QAction(MainWindow)
+        icon16 = QtGui.QIcon()
+        icon16.addPixmap(QtGui.QPixmap("d:\\vscode-\\test\\可视计算\\final-vcl\\Icon/undo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.undo_action.setIcon(icon16)
+        self.undo_action.setObjectName("undo_action")
         self.menuMyBrush.addAction(self.style1)
         self.menuMyBrush.addAction(self.style2)
         self.menuMyBrush.addAction(self.style3)
@@ -177,6 +182,7 @@ class Ui_MainWindow(object):
         self.toolBar.addAction(self.color_action)
         self.toolBar.addSeparator()
         self.toolBar.addAction(self.line_action)
+        self.toolBar.addAction(self.curve_action)
         self.toolBar.addAction(self.circle_action)
         self.toolBar.addAction(self.fill_circle_action)
         self.toolBar.addAction(self.rec_action)
@@ -187,6 +193,7 @@ class Ui_MainWindow(object):
         self.toolBar.addAction(self.rotate_action)
         self.toolBar.addAction(self.actionplus)
         self.toolBar.addAction(self.actionminus)
+        self.toolBar.addAction(self.undo_action)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -230,4 +237,5 @@ class Ui_MainWindow(object):
         self.brushstyle2.setText(_translate("MainWindow", "BDiagPattern"))
         self.brushstyle3.setText(_translate("MainWindow", "Dense1Pattern"))
         self.brushstyle4.setText(_translate("MainWindow", "RadialGradientPattern"))
+        self.undo_action.setText(_translate("MainWindow", "undo"))
 #import img_rcc_rc

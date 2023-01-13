@@ -96,6 +96,7 @@
    <addaction name="color_action"/>
    <addaction name="separator"/>
    <addaction name="line_action"/>
+   <addaction name="curve_action"/>
    <addaction name="circle_action"/>
    <addaction name="fill_circle_action"/>
    <addaction name="rec_action"/>
@@ -106,6 +107,7 @@
    <addaction name="rotate_action"/>
    <addaction name="actionplus"/>
    <addaction name="actionminus"/>
+   <addaction name="undo_action"/>
   </widget>
   <action name="choose_action">
    <property name="icon">
@@ -325,6 +327,15 @@
   <action name="brushstyle4">
    <property name="text">
     <string>RadialGradientPattern</string>
+   </property>
+  </action>
+  <action name="undo_action">
+   <property name="icon">
+    <iconset>
+     <normaloff>Icon/undo.png</normaloff>Icon/undo.png</iconset>
+   </property>
+   <property name="text">
+    <string>undo</string>
    </property>
   </action>
  </widget>

@@ -1,5 +1,6 @@
 from PyQt5.QtGui import QIntValidator
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog
+from PyQt5.QtGui import QIcon, QStandardItem, QStandardItemModel
 import sys
 
 from Ui_mainwin import *
@@ -14,7 +15,8 @@ class main_win(QMainWindow):
         QMainWindow.__init__(self)
         self.main_ui = Ui_MainWindow()
         self.main_ui.setupUi(self)
-        
+        model = QStandardItemModel()
+        #self.main_ui.dwgDrawings
         self.board = PaintBoard()
         self.cb=colorBoard()
         self.main_ui.gridLayout.addWidget(self.board)
@@ -24,7 +26,14 @@ class main_win(QMainWindow):
     def closeEvent(self, *args, **kwargs):
         sys.exit(app.exec_())
 
-
+    # def add(self,type):
+    #     item = QStandardItem()
+    #     item.setEditable(False)
+    #     index = self.indexFromItem(item).row()
+    #     typeItem = QStandardItem(type)
+    #     typeItem.setEditable(False)
+    #     self.setItem(index, self.TYPE, typeItem)
+    #     self.appendRow(item)
 class connect_win:
     def __init__(self):
         self.window = main_win()

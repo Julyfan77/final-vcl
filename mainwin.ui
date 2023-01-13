@@ -30,11 +30,53 @@
      <rect>
       <x>760</x>
       <y>10</y>
-      <width>71</width>
-      <height>41</height>
+      <width>201</width>
+      <height>51</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="colorboard"/>
+   </widget>
+   <widget class="QDockWidget" name="dwgDrawings">
+    <property name="geometry">
+     <rect>
+      <x>760</x>
+      <y>150</y>
+      <width>201</width>
+      <height>431</height>
+     </rect>
+    </property>
+    <property name="allowedAreas">
+     <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
+    </property>
+    <property name="windowTitle">
+     <string>Drawings</string>
+    </property>
+    <widget class="QWidget" name="wgDrawings">
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QTreeView" name="trvDrawings">
+        <property name="contextMenuPolicy">
+         <enum>Qt::ActionsContextMenu</enum>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

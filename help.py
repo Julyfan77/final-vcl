@@ -10,12 +10,14 @@ from Ui_color import *
 import math
 import cv2
 import copy
+from drawitems import *
 global nowcol,nowwid
 nowcol=Qt.black
 nowwid=1
 class PaintBoard(QWidget):
     def __init__(self):
         QWidget.__init__(self)
+        self.interact=None
         #self.lbl=QLabel("图片",self)
         self.pixmap = QPixmap(200,200)
         self.pixmap.fill(Qt.white)
@@ -30,6 +32,7 @@ class PaintBoard(QWidget):
         self.style=0
         self.brushstyle=0
         self.actions=[]
+        self.drawitems=[]
     def choose(self):
         self.mode=0
     def paintEvent(self, paintEvent):
@@ -82,6 +85,24 @@ class PaintBoard(QWidget):
         self.pen.drawPoint(x, y)
         self.pen.end()
         self.update()
+    def mouseDoubleClickEvent(self, event):
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        x=event.x()
+        y=event.y()
+        n=len(self.drawitems)
+        if(n==0):
+            return
+        nearid=0
+        mindis=getdis_2(x,y,self.drawitems[0].Gx,self.drawitems[0].Gy)
+        self.interact=0
+        for i in range(1,n):
+            if getdis_2(x,y,self.drawitems[i].Gx,self.drawitems[i].Gy)<mindis:
+                self.interact=i
+                nearid=i
+                mindis=getdis_2(x,y,self.drawitems[i].Gx,self.drawitems[i].Gy)
+        
+        print(self.drawitems[nearid].Gx,self.drawitems[nearid].Gy,5)
+        self.drawfillRound2(self.drawitems[nearid].Gx,self.drawitems[nearid].Gy,5)
     def mousePressEvent(self, event):
         global nowcol,nowwid
         x=event.x()
@@ -111,8 +132,9 @@ class PaintBoard(QWidget):
                     self.recpoint[(iter+1)%len(self.recpoint)][1])
                 thisrec=copy.deepcopy(self.recpoint)
                 self.actions.append(["rec",thisrec,nowcol,nowwid,self.style])
+                #self.win.add("rec")
                 self.recpoint.clear()
-                print(thisrec)
+            
         if self.mode==2:
             if event.button()==Qt.LeftButton:
                 if len(self.linexy)==0:
@@ -253,8 +275,25 @@ class PaintBoard(QWidget):
             mypen.setStyle(Qt.RadialGradientPattern)
             self.pen.setBrush(mypen)     
         self.pen.drawEllipse(xc-r,yc-r,2*r,2*r)
+        self.drawitems.append(fill_circle_drawitem(xc,yc,r,5,nowcol,
+            nowwid,self.brushstyle))
         print(xc,r,yc,r)
         self.pen.end() 
+        self.update()
+    def drawfillRound2(self, xc, yc, r):
+        col=Qt.red
+        self.pen.begin(self.pixmap)  
+        #print(wid)
+        mypen=QBrush()
+        mypen.setColor(col)
+        
+        mypen.setStyle(Qt.SolidPattern)
+        self.pen.setBrush(mypen)
+           
+        self.pen.drawEllipse(xc-r,yc-r,2*r,2*r)
+        print(xc,yc,r)
+        self.pen.end() 
+        self.update()
     def draw_rec_action(self):
         self.mode=3
         #print("change mode")      
@@ -328,6 +367,7 @@ class PaintBoard(QWidget):
         self.brushstyle=0
     def brushstyle4(self):
         self.brushstyle=4
+    
     def undo(self):
         global nowcol,nowwid
         if len(self.actions)==0:

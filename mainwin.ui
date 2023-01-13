@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>816</width>
-    <height>614</height>
+    <width>1062</width>
+    <height>621</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <rect>
       <x>0</x>
       <y>10</y>
-      <width>651</width>
+      <width>751</width>
       <height>571</height>
      </rect>
     </property>
@@ -28,26 +28,13 @@
    <widget class="QWidget" name="gridLayoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>660</x>
+      <x>760</x>
       <y>10</y>
-      <width>101</width>
+      <width>71</width>
       <height>41</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="colorboard"/>
-   </widget>
-   <widget class="QScrollBar" name="verticalScrollBar">
-    <property name="geometry">
-     <rect>
-      <x>750</x>
-      <y>360</y>
-      <width>16</width>
-      <height>160</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -55,17 +42,18 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>816</width>
+     <width>1062</width>
      <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuMyBrush">
     <property name="title">
-     <string>MyBrush</string>
+     <string>MyLine</string>
     </property>
-    <addaction name="actionpencil"/>
-    <addaction name="actionpen"/>
-    <addaction name="actionbrush"/>
+    <addaction name="style1"/>
+    <addaction name="style2"/>
+    <addaction name="style3"/>
+    <addaction name="style_outline"/>
    </widget>
    <widget class="QMenu" name="menuWidth">
     <property name="title">
@@ -77,8 +65,18 @@
     <addaction name="action4"/>
     <addaction name="action5"/>
    </widget>
+   <widget class="QMenu" name="menuMyBrush_2">
+    <property name="title">
+     <string>MyBrush</string>
+    </property>
+    <addaction name="brushstyle0"/>
+    <addaction name="brushstyle1"/>
+    <addaction name="brushstyle2"/>
+    <addaction name="brushstyle3"/>
+   </widget>
    <addaction name="menuMyBrush"/>
    <addaction name="menuWidth"/>
+   <addaction name="menuMyBrush_2"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
@@ -99,25 +97,15 @@
    <addaction name="separator"/>
    <addaction name="line_action"/>
    <addaction name="circle_action"/>
+   <addaction name="fill_circle_action"/>
    <addaction name="rec_action"/>
-   <addaction name="curve_action"/>
+   <addaction name="fill_rect_action"/>
    <addaction name="separator"/>
    <addaction name="caijian_action"/>
    <addaction name="pingyi_action"/>
    <addaction name="rotate_action"/>
    <addaction name="actionplus"/>
    <addaction name="actionminus"/>
-  </widget>
-  <widget class="QToolBar" name="toolBar_2">
-   <property name="windowTitle">
-    <string>toolBar_2</string>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>RightToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
   </widget>
   <action name="choose_action">
    <property name="icon">
@@ -242,19 +230,19 @@
     <string>caijian</string>
    </property>
   </action>
-  <action name="actionpencil">
+  <action name="style1">
    <property name="text">
-    <string>pencil</string>
+    <string>DashLine</string>
    </property>
   </action>
-  <action name="actionpen">
+  <action name="style2">
    <property name="text">
-    <string>pen</string>
+    <string>Custom_DL</string>
    </property>
   </action>
-  <action name="actionbrush">
+  <action name="style3">
    <property name="text">
-    <string>brush</string>
+    <string>DotLine</string>
    </property>
   </action>
   <action name="action1">
@@ -280,6 +268,63 @@
   <action name="action5">
    <property name="text">
     <string>5</string>
+   </property>
+  </action>
+  <action name="style_outline">
+   <property name="text">
+    <string>SolideLine</string>
+   </property>
+  </action>
+  <action name="brush_action">
+   <property name="icon">
+    <iconset>
+     <normaloff>Icon/brush.png</normaloff>Icon/brush.png</iconset>
+   </property>
+   <property name="text">
+    <string>brush</string>
+   </property>
+  </action>
+  <action name="fill_rect_action">
+   <property name="icon">
+    <iconset>
+     <normaloff>Icon/drawFilledRect.png</normaloff>Icon/drawFilledRect.png</iconset>
+   </property>
+   <property name="text">
+    <string>fill_rect</string>
+   </property>
+  </action>
+  <action name="fill_circle_action">
+   <property name="icon">
+    <iconset>
+     <normaloff>Icon/fill_circle.png</normaloff>Icon/fill_circle.png</iconset>
+   </property>
+   <property name="text">
+    <string>fill_circle</string>
+   </property>
+  </action>
+  <action name="brushstyle0">
+   <property name="text">
+    <string>SolidPattern</string>
+   </property>
+  </action>
+  <action name="brushstyle1">
+   <property name="text">
+    <string>HorPattern</string>
+   </property>
+  </action>
+  <action name="brushstyle2">
+   <property name="text">
+    <string>BDiagPattern</string>
+   </property>
+  </action>
+  <action name="brushstyle3">
+   <property name="text">
+    <string>Dense1Pattern</string>
+   </property>
+  </action>
+  <action name="brushstyle4">
+   <property name="text">
+    <string>RadialGradientPattern</string>
    </property>
   </action>
  </widget>

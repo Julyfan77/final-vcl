@@ -9,7 +9,7 @@ from PyQt5.QtGui import QColor, QImage
 from Ui_color import *
 import math
 import cv2
-
+import copy
 global nowcol,nowwid
 nowcol=Qt.black
 nowwid=1
@@ -21,7 +21,7 @@ class PaintBoard(QWidget):
         self.pixmap.fill(Qt.white)
         self.img = QImage(self.pixmap.toImage())
         #self.lbl.setPixmap(self.pixmap)
-        self.mode=0  #0-choose,1-straight,2-circle,3-rec,4-fillrec,5-fillcircle
+        self.mode=0  #0-choose,1-straight,2-circle,3-rec,4-fillrec,5-fillcircle,6-curve
         self.pen = QPainter()
         self.setMouseTracking(True)
         self.linexy=[]
@@ -29,6 +29,7 @@ class PaintBoard(QWidget):
         self.fill_recpoint=[]
         self.style=0
         self.brushstyle=0
+        self.actions=[]
     def choose(self):
         self.mode=0
     def paintEvent(self, paintEvent):
@@ -58,7 +59,8 @@ class PaintBoard(QWidget):
         self.pixmap=QPixmap(img).scaled(w,h)
         w = self.pixmap.width()
         h = self.pixmap.height()
-        print((w, h))
+        #print((w, h))
+        #self.actions.appen(["load",img])
         #self.lbl.setPixmap(self.pixmap)
         #self.show()
         self.update()
@@ -69,7 +71,6 @@ class PaintBoard(QWidget):
     # def myAddPic(self):
     #     self.lbl.setPixmap(self.pixmap)
 
-    #global nowwid,nowcol
     def drawPoint(self, x, y,col=Qt.black,wid=1,style=0):
         # print(self.width(),self.height())
         m = int(self.width()/2) + x
@@ -82,6 +83,7 @@ class PaintBoard(QWidget):
         self.pen.end()
         self.update()
     def mousePressEvent(self, event):
+        global nowcol,nowwid
         x=event.x()
         y=event.y()
         text="x: {0}, y: {1}".format(x,y)
@@ -90,7 +92,11 @@ class PaintBoard(QWidget):
                 if len(self.linexy)==0:
                     self.linexy.append([x,y])
                 elif len(self.linexy)==1:
+                    
                     self.draw_line(self.linexy[0][0],self.linexy[0][1],x,y)
+                    
+                    self.actions.append(["line",self.linexy[0][0],
+                            self.linexy[0][1],x,y,nowcol,nowwid,self.style])
                     self.linexy.clear()
         if self.mode==3:
             #print("rec")
@@ -103,7 +109,10 @@ class PaintBoard(QWidget):
                     self.recpoint[(iter)%len(self.recpoint)][1],
                     self.recpoint[(iter+1)%len(self.recpoint)][0],
                     self.recpoint[(iter+1)%len(self.recpoint)][1])
+                thisrec=copy.deepcopy(self.recpoint)
+                self.actions.append(["rec",thisrec,nowcol,nowwid,self.style])
                 self.recpoint.clear()
+                print(thisrec)
         if self.mode==2:
             if event.button()==Qt.LeftButton:
                 if len(self.linexy)==0:
@@ -113,6 +122,8 @@ class PaintBoard(QWidget):
                     r=math.sqrt((self.linexy[0][0]-x)*(self.linexy[0][0]-x)+
                     (self.linexy[0][1]-y)*(self.linexy[0][1]-y))
                     self.drawRound(self.linexy[0][0],self.linexy[0][1],r)
+                    self.actions.append(["circle",self.linexy[0][0],
+                        self.linexy[0][1],r,nowcol,nowwid])
                     self.linexy.clear()
         if self.mode==5:
             if event.button()==Qt.LeftButton:
@@ -123,6 +134,8 @@ class PaintBoard(QWidget):
                     r=math.sqrt((self.linexy[0][0]-x)*(self.linexy[0][0]-x)+
                     (self.linexy[0][1]-y)*(self.linexy[0][1]-y))
                     self.drawfillRound(self.linexy[0][0],self.linexy[0][1],r)
+                    self.actions.append(["fill_circle",self.linexy[0][0],
+                        self.linexy[0][1],r,nowcol,nowwid,self.brushstyle])
                     self.linexy.clear()
         if self.mode==4:#fill_rec
             if event.button()==Qt.LeftButton:
@@ -131,9 +144,19 @@ class PaintBoard(QWidget):
                 elif len(self.fill_recpoint)==1:
                     self.fill_recpoint.append([x,y])
                     self.draw_fill_rec(self.fill_recpoint[0][0],
-                    self.fill_recpoint[0][1],self.fill_recpoint[1][0],
-                    self.fill_recpoint[1][1])
+                        self.fill_recpoint[0][1],self.fill_recpoint[1][0],
+                        self.fill_recpoint[1][1])
+                    
+                    self.actions.append(["fill_rec",self.fill_recpoint[0][0],
+                        self.fill_recpoint[0][1],self.fill_recpoint[1][0],
+                        self.fill_recpoint[1][1],nowcol,nowwid,self.brushstyle])
                     self.fill_recpoint.clear()
+        if self.mode==6:#draw curve for free
+            
+            col=nowcol
+            wid=nowwid
+            self.drawPoint(x,y,col,wid)
+            self.actions.append(["point",x,y,nowcol,nowwid])
         self.update()
             
     def mouseReleaseEvent(self, event):
@@ -143,6 +166,11 @@ class PaintBoard(QWidget):
     def mouseMoveEvent(self,event):
         x = event.x()
         y = event.y()
+        if event.button()==Qt.LeftButton and self.mode==6:
+            global nowwid,nowcol
+            col=nowcol
+            wid=nowwid
+            self.drawPoint(x,y,col,wid)
         text = "x:{0},y:{1}".format(x,y)
         #self.ui.label_2.setText(text)  
     def draw_line_action(self):
@@ -237,6 +265,9 @@ class PaintBoard(QWidget):
     def draw_fill_circle_action(self):
         self.mode=5
         self.linexy.clear()
+    def draw_curve_action(self):
+        self.mode=6
+        #self.linexy.clear()
     def draw_fill_rec(self,x0,y0,x1,y1):
         global nowcol
         col=nowcol
@@ -297,6 +328,57 @@ class PaintBoard(QWidget):
         self.brushstyle=0
     def brushstyle4(self):
         self.brushstyle=4
+    def undo(self):
+        global nowcol,nowwid
+        if len(self.actions)==0:
+            return
+        n=len(self.actions)-1
+        self.pixmap.fill(Qt.white)
+        for i in range(n):
+            if self.actions[i][0]=="line":
+                
+                nowcol=self.actions[i][5]
+                nowwid=self.actions[i][6]
+                self.style=self.actions[i][7]
+                self.draw_line(self.actions[i][1],self.actions[i][2],
+                self.actions[i][3],self.actions[i][4])
+            elif self.actions[i][0]=="circle":
+                
+                nowcol=self.actions[i][4]
+                nowwid=self.actions[i][5]
+                self.drawRound(self.actions[i][1],self.actions[i][2],
+                    self.actions[i][3])
+            elif self.actions[i][0]=="rec":
+                thisrec=self.actions[i][1]
+                
+                nowcol=self.actions[i][2]
+                nowwid=self.actions[i][3]
+                self.style=self.actions[i][4]
+                print(thisrec)
+                for iter in range(len(thisrec)):
+                    self.draw_line(thisrec[(iter)%len(thisrec)][0],
+                    thisrec[(iter)%len(thisrec)][1],
+                    thisrec[(iter+1)%len(thisrec)][0],
+                    thisrec[(iter+1)%len(thisrec)][1])
+            elif self.actions[i][0]=="fill_circle":
+                
+                nowcol=self.actions[i][4]
+                nowwid=self.actions[i][5]
+                self.brushstyle=self.actions[i][6]
+                self.drawfillRound(self.actions[i][1],
+                    self.actions[i][2],self.actions[i][3])
+            elif self.actions[i][0]=="fill_rec":
+                nowcol=self.actions[i][5]
+                nowwid=self.actions[i][6]    
+                self.brushstyle=self.actions[i][7]
+                self.draw_fill_rec(self.actions[i][1],
+                    self.actions[i][2],self.actions[i][3],self.actions[i][4])
+            elif self.actions[i][0]=="point":
+                self.drawPoint(self.actions[i][1],
+                    self.actions[i][2],self.actions[i][3],self.actions[i][4])
+        del self.actions[-1]  
+        self.update()    
+                
     
 class colorBoard(PaintBoard):
     def __init__(self):

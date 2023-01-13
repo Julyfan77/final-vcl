@@ -43,7 +43,9 @@ class connect_win:
         self.window.main_ui.save_action.triggered.connect(self.bll.img_save)
         self.window.main_ui.choose_action.triggered.connect(self.window.board.choose)   
         self.window.main_ui.line_action.triggered.connect(
-            self.window.board.draw_line_action) 
+            self.window.board.draw_line_action)
+        self.window.main_ui.curve_action.triggered.connect(
+            self.window.board.draw_curve_action)  
         self.window.main_ui.circle_action.triggered.connect(
             self.window.board.draw_circle_action)
         self.window.main_ui.rec_action.triggered.connect(
@@ -66,6 +68,7 @@ class connect_win:
         self.window.main_ui.brushstyle1.triggered.connect(self.window.board.brushstyle1)
         self.window.main_ui.brushstyle2.triggered.connect(self.window.board.brushstyle2)
         self.window.main_ui.brushstyle3.triggered.connect(self.window.board.brushstyle3)
+        self.window.main_ui.undo_action.triggered.connect(self.window.board.undo)
         #self.window.main_ui.brushstyle4.triggered.connect(self.window.board.brushstyle4)
        # self.window.main_ui.action5.triggered.connect(self.window.board.action5)
        

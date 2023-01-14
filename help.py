@@ -216,7 +216,7 @@ class PaintBoard(QWidget):
             col=self.col
             wid=self.wid
             self.drawPoint(x,y,col,wid)
-            self.drawitems.append(mypoint(x,y,col,wid))
+            self.drawitems.append(mypoint(x,y,col,wid,self))
             self.mycopy()
             #self.actions.append(["point",x,y,nowcol,nowwid])
         self.update()

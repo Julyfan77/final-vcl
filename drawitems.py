@@ -25,7 +25,7 @@ class mypoint():
     def draw(self):
         self.pb.wid=self.wid
         self.pb.col=self.col
-        self.pb.draw_point(self.Gx, self.Gy, self.col, self.wid)
+        self.pb.drawPoint(self.Gx, self.Gy, self.col, self.wid)
 
     def move(self, dx, dy):
         self.Gx += dx

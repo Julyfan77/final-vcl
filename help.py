@@ -11,7 +11,7 @@ import math
 import cv2
 import copy
 from drawitems import *
-global nowcol,nowwid
+import queue
 nowcol=Qt.black
 nowwid=1
 class PaintBoard(QWidget):
@@ -31,12 +31,16 @@ class PaintBoard(QWidget):
         self.fill_recpoint=[]
         self.style=0
         self.brushstyle=0
-        self.actions=[]
+        #self.actions=[]
         self.drawitems=[]
+        self.col=Qt.black
+        self.wid=1
+        self.currentid=0
+        self.undoqueue=queue.Queue()
     def choose(self):
         self.mode=0
     def paintEvent(self, paintEvent):
-        print("paint event !!!")
+        #print("paint event !!!")
         self.pixmap = self.pixmap.scaled(self.width(), self.height())
         self.pen.begin(self)
         # self.pen.drawPixmap(0, 0, self.pixmap)
@@ -62,10 +66,7 @@ class PaintBoard(QWidget):
         self.pixmap=QPixmap(img).scaled(w,h)
         w = self.pixmap.width()
         h = self.pixmap.height()
-        #print((w, h))
-        #self.actions.appen(["load",img])
-        #self.lbl.setPixmap(self.pixmap)
-        #self.show()
+        
         self.update()
     def save_img(self,img):
         self.img.save(img)
@@ -86,7 +87,8 @@ class PaintBoard(QWidget):
         self.pen.end()
         self.update()
     def mouseDoubleClickEvent(self, event):
-        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        self.mode=0
+        #print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         x=event.x()
         y=event.y()
         n=len(self.drawitems)
@@ -104,7 +106,8 @@ class PaintBoard(QWidget):
         print(self.drawitems[nearid].Gx,self.drawitems[nearid].Gy,5)
         self.drawfillRound2(self.drawitems[nearid].Gx,self.drawitems[nearid].Gy,5)
     def mousePressEvent(self, event):
-        global nowcol,nowwid
+        nowcol=self.col
+        nowwid=self.wid
         x=event.x()
         y=event.y()
         text="x: {0}, y: {1}".format(x,y)
@@ -112,12 +115,15 @@ class PaintBoard(QWidget):
             if event.button()==Qt.LeftButton:
                 if len(self.linexy)==0:
                     self.linexy.append([x,y])
-                elif len(self.linexy)==1:
                     
+                elif len(self.linexy)==1:
+                    self.drawitems.append(line_drawitem([[self.linexy[0][0],
+                    self.linexy[0][1]],[x,y]],
+                    nowcol,nowwid,self.style,self))
                     self.draw_line(self.linexy[0][0],self.linexy[0][1],x,y)
                     
-                    self.actions.append(["line",self.linexy[0][0],
-                            self.linexy[0][1],x,y,nowcol,nowwid,self.style])
+                    # self.actions.append(["line",self.linexy[0][0],
+                    #         self.linexy[0][1],x,y,nowcol,nowwid,self.style])
                     self.linexy.clear()
         if self.mode==3:
             #print("rec")
@@ -131,7 +137,9 @@ class PaintBoard(QWidget):
                     self.recpoint[(iter+1)%len(self.recpoint)][0],
                     self.recpoint[(iter+1)%len(self.recpoint)][1])
                 thisrec=copy.deepcopy(self.recpoint)
-                self.actions.append(["rec",thisrec,nowcol,nowwid,self.style])
+                self.drawitems.append(rec_drawitem(thisrec,nowcol,nowwid,
+                    self.style,self))
+                #self.actions.append(["rec",thisrec,nowcol,nowwid,self.style])
                 #self.win.add("rec")
                 self.recpoint.clear()
             
@@ -144,20 +152,26 @@ class PaintBoard(QWidget):
                     r=math.sqrt((self.linexy[0][0]-x)*(self.linexy[0][0]-x)+
                     (self.linexy[0][1]-y)*(self.linexy[0][1]-y))
                     self.drawRound(self.linexy[0][0],self.linexy[0][1],r)
-                    self.actions.append(["circle",self.linexy[0][0],
-                        self.linexy[0][1],r,nowcol,nowwid])
+                    # self.actions.append(["circle",self.linexy[0][0],
+                    #     self.linexy[0][1],r,nowcol,nowwid])
+                    self.drawitems.append(circle_drawitem(
+                        self.linexy[0][0],
+                        self.linexy[0][1],r,nowcol,nowwid,self
+                    ))
                     self.linexy.clear()
         if self.mode==5:
             if event.button()==Qt.LeftButton:
                 if len(self.linexy)==0:
                     self.linexy.append([x,y])
+                    print("append"+str(x)+","+str(y))
                 elif len(self.linexy)==1:
                     self.linexy.append([x,y])
+                    print("append"+str(x)+","+str(y))
                     r=math.sqrt((self.linexy[0][0]-x)*(self.linexy[0][0]-x)+
                     (self.linexy[0][1]-y)*(self.linexy[0][1]-y))
                     self.drawfillRound(self.linexy[0][0],self.linexy[0][1],r)
-                    self.actions.append(["fill_circle",self.linexy[0][0],
-                        self.linexy[0][1],r,nowcol,nowwid,self.brushstyle])
+                    # self.actions.append(["fill_circle",self.linexy[0][0],
+                    #     self.linexy[0][1],r,nowcol,nowwid,self.brushstyle])
                     self.linexy.clear()
         if self.mode==4:#fill_rec
             if event.button()==Qt.LeftButton:
@@ -168,17 +182,22 @@ class PaintBoard(QWidget):
                     self.draw_fill_rec(self.fill_recpoint[0][0],
                         self.fill_recpoint[0][1],self.fill_recpoint[1][0],
                         self.fill_recpoint[1][1])
-                    
-                    self.actions.append(["fill_rec",self.fill_recpoint[0][0],
+                    self.drawitems.append(fill_rec_drawitem(self.fill_recpoint[0][0],
                         self.fill_recpoint[0][1],self.fill_recpoint[1][0],
-                        self.fill_recpoint[1][1],nowcol,nowwid,self.brushstyle])
+                        self.fill_recpoint[1][1],nowcol,nowwid,self.brushstyle,
+                        self
+                    ))
+                    # self.actions.append(["fill_rec",self.fill_recpoint[0][0],
+                    #     self.fill_recpoint[0][1],self.fill_recpoint[1][0],
+                    #     self.fill_recpoint[1][1],nowcol,nowwid,self.brushstyle])
                     self.fill_recpoint.clear()
         if self.mode==6:#draw curve for free
             
-            col=nowcol
-            wid=nowwid
+            col=self.col
+            wid=self.wid
             self.drawPoint(x,y,col,wid)
-            self.actions.append(["point",x,y,nowcol,nowwid])
+            self.drawitems.append(mypoint(x,y,col,wid))
+            #self.actions.append(["point",x,y,nowcol,nowwid])
         self.update()
             
     def mouseReleaseEvent(self, event):
@@ -189,9 +208,9 @@ class PaintBoard(QWidget):
         x = event.x()
         y = event.y()
         if event.button()==Qt.LeftButton and self.mode==6:
-            global nowwid,nowcol
-            col=nowcol
-            wid=nowwid
+            
+            col=self.col
+            wid=self.wid
             self.drawPoint(x,y,col,wid)
         text = "x:{0},y:{1}".format(x,y)
         #self.ui.label_2.setText(text)  
@@ -199,9 +218,8 @@ class PaintBoard(QWidget):
         self.mode=1
         self.linexy.clear()
     def draw_line(self,x0,y0,x1,y1):
-        global nowcol,nowwid
-        col=nowcol
-        wid=nowwid
+        col=self.col
+        wid=self.wid
         self.pen.begin(self.pixmap)  
         #print(wid)
         mypen=QPen(col,wid,Qt.SolidLine)
@@ -226,9 +244,8 @@ class PaintBoard(QWidget):
         self.mode=2
         self.linexy.clear()
     def CirclePlot(self, xc, yc, x, y):
-        global nowwid,nowcol
-        col=nowcol
-        wid=nowwid
+        col=self.col
+        wid=self.wid
         self.drawPoint(x+xc, y+yc,col,wid)
         self.drawPoint(-x+xc, y+yc,col,wid)
         self.drawPoint(x+xc, -y+yc,col,wid)
@@ -251,8 +268,8 @@ class PaintBoard(QWidget):
             x +=1
             self.CirclePlot(xc, yc, x, y)
     def drawfillRound(self, xc, yc, r):
-        global nowcol
-        col=nowcol
+        nowcol=self.col
+        nowwid=self.wid
         self.pen.begin(self.pixmap)  
         #print(wid)
         mypen=QBrush()
@@ -275,9 +292,10 @@ class PaintBoard(QWidget):
             mypen.setStyle(Qt.RadialGradientPattern)
             self.pen.setBrush(mypen)     
         self.pen.drawEllipse(xc-r,yc-r,2*r,2*r)
-        self.drawitems.append(fill_circle_drawitem(xc,yc,r,5,nowcol,
-            nowwid,self.brushstyle))
-        print(xc,r,yc,r)
+        self.drawitems.append(fill_circle_drawitem(xc,yc,r,nowcol,
+            nowwid,self.brushstyle,self))
+        print("begin to fill circle ")
+        print(xc,yc,r)
         self.pen.end() 
         self.update()
     def drawfillRound2(self, xc, yc, r):
@@ -335,20 +353,15 @@ class PaintBoard(QWidget):
         print(x0,y0,x1,y1)
         self.pen.end()
     def action1(self):
-        global nowwid
-        nowwid=1
+        self.wid=1
     def action2(self):
-        global nowwid
-        nowwid=2
+        self.wid=2
     def action3(self):
-        global nowwid
-        nowwid=3
+        self.wid=3
     def action5(self):
-        global nowwid
-        nowwid=5
+        self.wid=5
     def action4(self):
-        global nowwid
-        nowwid=4
+        self.wid=4
     def style1(self):
         self.style=1
     def style2(self):
@@ -369,59 +382,60 @@ class PaintBoard(QWidget):
         self.brushstyle=4
     
     def undo(self):
-        global nowcol,nowwid
-        if len(self.actions)==0:
-            return
-        n=len(self.actions)-1
-        self.pixmap.fill(Qt.white)
-        for i in range(n):
-            if self.actions[i][0]=="line":
+        
+        # if len(self.actions)==0:
+        #     return
+        # n=len(self.actions)-1
+        # self.pixmap.fill(Qt.white)
+        # self.drawitems.clear()
+        # for i in range(n):
+        #     if self.actions[i][0]=="line":
                 
-                nowcol=self.actions[i][5]
-                nowwid=self.actions[i][6]
-                self.style=self.actions[i][7]
-                self.draw_line(self.actions[i][1],self.actions[i][2],
-                self.actions[i][3],self.actions[i][4])
-            elif self.actions[i][0]=="circle":
+        #         self.col=self.actions[i][5]
+        #         self.wid=self.actions[i][6]
+        #         self.style=self.actions[i][7]
+        #         self.draw_line(self.actions[i][1],self.actions[i][2],
+        #         self.actions[i][3],self.actions[i][4])
+        #     elif self.actions[i][0]=="circle":
                 
-                nowcol=self.actions[i][4]
-                nowwid=self.actions[i][5]
-                self.drawRound(self.actions[i][1],self.actions[i][2],
-                    self.actions[i][3])
-            elif self.actions[i][0]=="rec":
-                thisrec=self.actions[i][1]
+        #         self.col=self.actions[i][4]
+        #         self.wid=self.actions[i][5]
+        #         self.drawRound(self.actions[i][1],self.actions[i][2],
+        #             self.actions[i][3])
+        #     elif self.actions[i][0]=="rec":
+        #         thisrec=self.actions[i][1]
                 
-                nowcol=self.actions[i][2]
-                nowwid=self.actions[i][3]
-                self.style=self.actions[i][4]
-                print(thisrec)
-                for iter in range(len(thisrec)):
-                    self.draw_line(thisrec[(iter)%len(thisrec)][0],
-                    thisrec[(iter)%len(thisrec)][1],
-                    thisrec[(iter+1)%len(thisrec)][0],
-                    thisrec[(iter+1)%len(thisrec)][1])
-            elif self.actions[i][0]=="fill_circle":
+        #         self.col=self.actions[i][2]
+        #         self.wid=self.actions[i][3]
+        #         self.style=self.actions[i][4]
+        #         print(thisrec)
+        #         for iter in range(len(thisrec)):
+        #             self.draw_line(thisrec[(iter)%len(thisrec)][0],
+        #             thisrec[(iter)%len(thisrec)][1],
+        #             thisrec[(iter+1)%len(thisrec)][0],
+        #             thisrec[(iter+1)%len(thisrec)][1])
+        #     elif self.actions[i][0]=="fill_circle":
                 
-                nowcol=self.actions[i][4]
-                nowwid=self.actions[i][5]
-                self.brushstyle=self.actions[i][6]
-                self.drawfillRound(self.actions[i][1],
-                    self.actions[i][2],self.actions[i][3])
-            elif self.actions[i][0]=="fill_rec":
-                nowcol=self.actions[i][5]
-                nowwid=self.actions[i][6]    
-                self.brushstyle=self.actions[i][7]
-                self.draw_fill_rec(self.actions[i][1],
-                    self.actions[i][2],self.actions[i][3],self.actions[i][4])
-            elif self.actions[i][0]=="point":
-                self.drawPoint(self.actions[i][1],
-                    self.actions[i][2],self.actions[i][3],self.actions[i][4])
-        del self.actions[-1]  
-        self.update()    
-                
+        #         self.col=self.actions[i][4]
+        #         self.wid=self.actions[i][5]
+        #         self.brushstyle=self.actions[i][6]
+        #         self.drawfillRound(self.actions[i][1],
+        #             self.actions[i][2],self.actions[i][3])
+        #     elif self.actions[i][0]=="fill_rec":
+        #         self.col=self.actions[i][5]
+        #         self.wid=self.actions[i][6]    
+        #         self.brushstyle=self.actions[i][7]
+        #         self.draw_fill_rec(self.actions[i][1],
+        #             self.actions[i][2],self.actions[i][3],self.actions[i][4])
+        #     elif self.actions[i][0]=="point":
+        #         self.drawPoint(self.actions[i][1],
+        #             self.actions[i][2],self.actions[i][3],self.actions[i][4])
+        # del self.actions[-1]  
+        # self.update()    
+        pass
     
 class colorBoard(PaintBoard):
-    def __init__(self):
+    def __init__(self,pb):
         QWidget.__init__(self)
         self.pixmap = QPixmap(1,1)
         self.pixmap.fill(Qt.black)
@@ -429,11 +443,11 @@ class colorBoard(PaintBoard):
         #self.lbl.setPixmap(self.pixmap)
         self.pen = QPainter()
         self.color=QColor(255,255,255,127)
+        self.pb=pb
     def paintEvent(self, paintEvent):
         return super().paintEvent(paintEvent)
     def load_color(self, col):
         #self.widget.setStyleSheet('QWidget {background-color:%s}'%col.name())
-        global nowcol
-        nowcol=col
+        self.pb.col=col
         self.pixmap.fill(col)
     

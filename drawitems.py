@@ -23,6 +23,8 @@ class mypoint():
         pass
 
     def draw(self):
+        self.pb.wid=self.wid
+        self.pb.col=self.col
         self.pb.draw_point(self.Gx, self.Gy, self.col, self.wid)
 
     def move(self, dx, dy):
@@ -63,8 +65,8 @@ class rec_drawitem():
         self.Gy /= n
 
     def draw(self):
-        nowwid = self.wid
-        nowcol = self.col
+        self.pb.wid=self.wid
+        self.pb.col=self.col
         for iter in range(len(self.points)):
             self.pb.style = self.style
 
@@ -122,9 +124,11 @@ class line_drawitem():
         self.Gy /= n
 
     def draw(self):
-        nowwid = self.wid
-        nowcol = self.col
+        
+        self.pb.wid=self.wid
+        self.pb.col=self.col
         self.pb.style = self.style
+        print("my wid is "+str(self.wid))
         self.pb.draw_line(self.points[0][0], self.points[0][1],
                           self.points[1][0], self.points[1][1])
 
@@ -158,8 +162,8 @@ class circle_drawitem():
         self.Gy = self.yc
 
     def draw(self):
-        nowwid = self.wid
-        nowcol = self.col
+        self.pb.wid=self.wid
+        self.pb.col=self.col
         self.pb.drawRound(self.xc, self.yc, self.r)
 
     def move(self, dx: float, dy: float) -> None:
@@ -191,10 +195,10 @@ class fill_rec_drawitem():
         self.Gy = (self.y1 + self.y2) / 2
 
     def draw(self):
-        nowwid = self.wid
-        nowcol = self.col
+        self.pb.wid=self.wid
+        self.pb.col=self.col
         self.pb.brushstyle = self.style
-        self.pb.draw_fill_rec(self.x1, self.x2, self.y1, self.y2)
+        self.pb.draw_fill_rec(self.x1, self.y1, self.x2, self.y2)
 
     def move(self, dx: float, dy: float) -> None:
         self.x1 += dx
@@ -216,10 +220,10 @@ class fill_circle_drawitem(circle_drawitem):
         super().__init__(xc, yc, r, col, wid, pb)
 
     def draw(self):
-        nowwid = self.wid
-        nowcol = self.col
+        self.pb.wid=self.wid
+        self.pb.col=self.col
         self.pb.brushstyle = self.style
-        self.pb.draw_fill_circle(self.xc, self.yc, self.r, self.pb)
+        self.pb.drawfillRound(self.xc, self.yc, self.r)
 
 def getdis_2(x1, y1, x2, y2):
     return (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)

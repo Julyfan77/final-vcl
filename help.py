@@ -40,6 +40,7 @@ class PaintBoard(QWidget):
         self.currentid=0
         self.undolst=[]
         self.rotatepot=[]
+        self.cb=None
     def choose(self):
         self.mode=0
     def paintEvent(self, paintEvent):
@@ -456,6 +457,7 @@ class PaintBoard(QWidget):
         #print(len(allitems))
         see=[]
         for i in range(len(self.undolst)):
+            
             see.append(len(self.undolst[i]))
         print(see)
         n=len(allitems)
@@ -463,6 +465,7 @@ class PaintBoard(QWidget):
         if(self.bg):
             self.load_img(self.bg)
         for i in range(n):
+            self.cb.load_color(allitems[i].col)
             allitems[i].draw()
         self.update()
         del self.undolst[-1]
@@ -475,12 +478,14 @@ class colorBoard(PaintBoard):
         self.img = QImage(self.pixmap.toImage())
         #self.lbl.setPixmap(self.pixmap)
         self.pen = QPainter()
-        self.color=QColor(255,255,255,127)
+        self.col=QColor(255,255,255,127)
         self.pb=pb
     def paintEvent(self, paintEvent):
         return super().paintEvent(paintEvent)
     def load_color(self, col):
+        print(col)
         #self.widget.setStyleSheet('QWidget {background-color:%s}'%col.name())
         self.pb.col=col
         self.pixmap.fill(col)
+        self.update()
     

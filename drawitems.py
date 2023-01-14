@@ -19,12 +19,16 @@ class mypoint():
         self.wid = wid
         self.pb = pb
 
+    @classmethod
+    def __blank(cls):
+        return cls(None, None, None, None, None)
+
     def updateG(self):
         pass
 
     def draw(self):
-        self.pb.wid=self.wid
-        self.pb.col=self.col
+        self.pb.wid = self.wid
+        self.pb.col = self.col
         self.pb.drawPoint(self.Gx, self.Gy, self.col, self.wid)
 
     def move(self, dx, dy):
@@ -33,7 +37,14 @@ class mypoint():
         self.updateG()
 
     def rotate(self, rotation: float) -> None:
-        raise TypeError('you cannot rotate a point item!')
+        print('you cannot rotate a point item!')
+        return
+
+    def mycopy(self) -> 'mypoint':
+        copied = mypoint.__blank()
+        for name, value in vars(self).items():
+            copied.__setattr__(name, value)
+        return copied
 
 
 class rec_drawitem():
@@ -46,13 +57,28 @@ class rec_drawitem():
         self.col = col
         self.wid = wid
         self.style = style
-        n = len(self.points)
         self.pb = pb
+        self.getG()
+
+    def getG(self):
+        if self.points is None:
+            return
+        n = len(self.points)
         for i in range(n):
             self.Gx += self.points[i][0]
             self.Gy += self.points[i][1]
         self.Gx /= n
         self.Gy /= n
+
+    @classmethod
+    def __blank(cls):
+        return cls(None, None, None, None, None)
+
+    def mycopy(self) -> 'rec_drawitem':
+        copied = rec_drawitem.__blank()
+        for name, value in vars(self).items():
+            copied.__setattr__(name, value)
+        return copied
 
     def updateG(self):
         n = len(self.points)
@@ -65,8 +91,8 @@ class rec_drawitem():
         self.Gy /= n
 
     def draw(self):
-        self.pb.wid=self.wid
-        self.pb.col=self.col
+        self.pb.wid = self.wid
+        self.pb.col = self.col
         for iter in range(len(self.points)):
             self.pb.style = self.style
 
@@ -106,12 +132,27 @@ class line_drawitem():
         self.wid = wid
         self.style = style
         self.pb = pb
+        self.getG()
+
+    def getG(self):
+        if self.points is None:
+            return
         n = len(self.points)
         for i in range(n):
             self.Gx += self.points[i][0]
             self.Gy += self.points[i][1]
         self.Gx /= n
         self.Gy /= n
+
+    @classmethod
+    def __blank(cls):
+        return cls(None, None, None, None, None)
+
+    def mycopy(self) -> 'line_drawitem':
+        copied = line_drawitem.__blank()
+        for name, value in vars(self).items():
+            copied.__setattr__(name, value)
+        return copied
 
     def updateG(self):
         n = len(self.points)
@@ -124,11 +165,11 @@ class line_drawitem():
         self.Gy /= n
 
     def draw(self):
-        
-        self.pb.wid=self.wid
-        self.pb.col=self.col
+
+        self.pb.wid = self.wid
+        self.pb.col = self.col
         self.pb.style = self.style
-        print("my wid is "+str(self.wid))
+        print("my wid is " + str(self.wid))
         self.pb.draw_line(self.points[0][0], self.points[0][1],
                           self.points[1][0], self.points[1][1])
 
@@ -157,13 +198,23 @@ class circle_drawitem():
         self.wid = wid
         self.pb = pb
 
+    @classmethod
+    def __blank(cls):
+        return cls(None, None, None, None, None, None)
+
+    def mycopy(self) -> 'circle_drawitem':
+        copied = circle_drawitem.__blank()
+        for name, value in vars(self).items():
+            copied.__setattr__(name, value)
+        return copied
+
     def updateG(self):
         self.Gx = self.xc
         self.Gy = self.yc
 
     def draw(self):
-        self.pb.wid=self.wid
-        self.pb.col=self.col
+        self.pb.wid = self.wid
+        self.pb.col = self.col
         self.pb.drawRound(self.xc, self.yc, self.r)
 
     def move(self, dx: float, dy: float) -> None:
@@ -172,7 +223,8 @@ class circle_drawitem():
         self.updateG()
 
     def rotate(self, rotation: float) -> None:
-        raise TypeError('you cannot rotate a circle item!')
+        print('you cannot rotate a circle item!')
+        return
 
 
 class fill_rec_drawitem():
@@ -184,19 +236,36 @@ class fill_rec_drawitem():
         self.y1 = y1
         self.y2 = y2
         self.style = style
-        self.Gx = (self.x1 + self.x2) / 2
-        self.Gy = (self.y1 + self.y2) / 2
+        self.Gx = 0
+        self.Gy = 0
         self.col = col
         self.wid = wid
         self.pb = pb
+
+    def getG(self):
+        try:
+            self.Gx = (self.x1 + self.x2) / 2
+            self.Gy = (self.y1 + self.y2) / 2
+        except:
+            pass
+
+    @classmethod
+    def __blank(cls):
+        return cls(None, None, None, None, None, None, None, None)
+
+    def mycopy(self) -> 'fill_rec_drawitem':
+        copied = fill_rec_drawitem.__blank()
+        for name, value in vars(self).items():
+            copied.__setattr__(name, value)
+        return copied
 
     def updateG(self):
         self.Gx = (self.x1 + self.x2) / 2
         self.Gy = (self.y1 + self.y2) / 2
 
     def draw(self):
-        self.pb.wid=self.wid
-        self.pb.col=self.col
+        self.pb.wid = self.wid
+        self.pb.col = self.col
         self.pb.brushstyle = self.style
         self.pb.draw_fill_rec(self.x1, self.y1, self.x2, self.y2)
 
@@ -220,10 +289,11 @@ class fill_circle_drawitem(circle_drawitem):
         super().__init__(xc, yc, r, col, wid, pb)
 
     def draw(self):
-        self.pb.wid=self.wid
-        self.pb.col=self.col
+        self.pb.wid = self.wid
+        self.pb.col = self.col
         self.pb.brushstyle = self.style
         self.pb.drawfillRound(self.xc, self.yc, self.r)
+
 
 def getdis_2(x1, y1, x2, y2):
     return (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)

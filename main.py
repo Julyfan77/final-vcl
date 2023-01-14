@@ -1,11 +1,8 @@
-from PyQt5.QtGui import QIntValidator
-from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog
-from PyQt5.QtGui import QIcon, QStandardItem, QStandardItemModel
-import sys
+from PyQt5.QtGui import QStandardItemModel
+from PyQt5.QtWidgets import QMainWindow
 
 from Ui_mainwin import *
 from help import *
-from Ui_color import *
 from load_save import *
 
 
@@ -17,9 +14,9 @@ class main_win(QMainWindow):
         model = QStandardItemModel()
         # self.main_ui.dwgDrawings
         self.board = PaintBoard()
-        
+
         self.cb = colorBoard(self.board)
-        self.board.cb=self.cb
+        self.board.cb = self.cb
         self.main_ui.gridLayout.addWidget(self.board)
         self.main_ui.colorboard.addWidget(self.cb)
         self.setAttribute(Qt.WA_DeleteOnClose)

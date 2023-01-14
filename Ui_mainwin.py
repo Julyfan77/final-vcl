@@ -233,4 +233,4 @@ class Ui_MainWindow(object):
         self.brushstyle4.setText(_translate("MainWindow", "RadialGradientPattern"))
         self.undo_action.setText(_translate("MainWindow", "undo"))
 
-import img_rcc_rc
+#import img_rcc_rc

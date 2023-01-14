@@ -79,6 +79,8 @@ class connect_win:
         self.window.main_ui.brushstyle2.triggered.connect(self.window.board.brushstyle2)
         self.window.main_ui.brushstyle3.triggered.connect(self.window.board.brushstyle3)
         self.window.main_ui.undo_action.triggered.connect(self.window.board.undo)
+        self.window.main_ui.rotate_action.triggered.connect(self.window.board.rotate)
+        self.window.main_ui.pingyi_action.triggered.connect(self.window.board.pingyi)
         # self.window.main_ui.brushstyle4.triggered.connect(self.window.board.brushstyle4)
     # self.window.main_ui.action5.triggered.connect(self.window.board.action5)
 

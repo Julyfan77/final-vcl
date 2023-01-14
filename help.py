@@ -106,6 +106,12 @@ class PaintBoard(QWidget):
         #print(self.drawitems[nearid].Gx,self.drawitems[nearid].Gy,5)
         self.myupdate()
         #self.drawfillRound2(self.drawitems[nearid].Gx,self.drawitems[nearid].Gy,5)
+    def mycopy(self):
+        lens=len(self.drawitems)
+        tmplst=[]
+        for i in range(lens):
+            tmplst.append(self.drawitems[i])
+        self.undolst.append(tmplst)
     def mousePressEvent(self, event):
         nowcol=self.col
         nowwid=self.wid
@@ -121,11 +127,7 @@ class PaintBoard(QWidget):
                     self.drawitems.append(line_drawitem([[self.linexy[0][0],
                     self.linexy[0][1]],[x,y]],
                     nowcol,copy.deepcopy(nowwid),copy.deepcopy(self.style),self))
-                    lens=len(self.drawitems)
-                    tmplst=[]
-                    for i in range(lens):
-                        tmplst.append(self.drawitems[i])
-                    self.undolst.append(tmplst)
+                    self.mycopy()
                     self.draw_line(self.linexy[0][0],self.linexy[0][1],x,y)
                     
                     # self.actions.append(["line",self.linexy[0][0],
@@ -141,11 +143,7 @@ class PaintBoard(QWidget):
                 thisrec=copy.deepcopy(self.recpoint)
                 self.drawitems.append(rec_drawitem(thisrec,nowcol,nowwid,
                     self.style,self))
-                lens=len(self.drawitems)
-                tmplst=[]
-                for i in range(lens):
-                    tmplst.append(self.drawitems[i])
-                self.undolst.append(tmplst)
+                self.mycopy()
                 #self.actions.append(["rec",thisrec,nowcol,nowwid,self.style])
                 #self.win.add("rec")
                 for iter in range(len(self.recpoint)):
@@ -170,11 +168,7 @@ class PaintBoard(QWidget):
                         self.linexy[0][0],
                         self.linexy[0][1],r,nowcol,nowwid,self
                     ))
-                    lens=len(self.drawitems)
-                    tmplst=[]
-                    for i in range(lens):
-                        tmplst.append(self.drawitems[i])
-                    self.undolst.append(tmplst)
+                    self.mycopy()
                     self.linexy.clear()
         if self.mode==5:
             if event.button()==Qt.LeftButton:
@@ -191,11 +185,7 @@ class PaintBoard(QWidget):
                     self.drawitems.append(fill_circle_drawitem(
                         self.linexy[0][0],self.linexy[0][1],r,self.col,
                             self.wid,self.brushstyle,self))
-                    lens=len(self.drawitems)
-                    tmplst=[]
-                    for i in range(lens):
-                        tmplst.append(self.drawitems[i])
-                    self.undolst.append(tmplst)
+                    self.mycopy()
                     self.drawfillRound(self.linexy[0][0],self.linexy[0][1],r)
                     self.linexy.clear()
                     
@@ -214,11 +204,7 @@ class PaintBoard(QWidget):
                         self.fill_recpoint[1][1],nowcol,nowwid,self.brushstyle,
                         self
                     ))
-                    lens=len(self.drawitems)
-                    tmplst=[]
-                    for i in range(lens):
-                        tmplst.append(self.drawitems[i])
-                    self.undolst.append(tmplst)
+                    self.mycopy()
                     
                     # self.actions.append(["fill_rec",self.fill_recpoint[0][0],
                     #     self.fill_recpoint[0][1],self.fill_recpoint[1][0],
@@ -230,11 +216,7 @@ class PaintBoard(QWidget):
             wid=self.wid
             self.drawPoint(x,y,col,wid)
             self.drawitems.append(mypoint(x,y,col,wid))
-            lens=len(self.drawitems)
-            tmplst=[]
-            for i in range(lens):
-                tmplst.append(self.drawitems[i])
-            self.undolst.append(tmplst)
+            self.mycopy()
             #self.actions.append(["point",x,y,nowcol,nowwid])
         self.update()
         if self.mode==7:
@@ -245,11 +227,7 @@ class PaintBoard(QWidget):
                 dx=-self.drawitems[id].Gx+x
                 dy=-self.drawitems[id].Gy+y  
                 self.drawitems[id].move(dx,dy)
-                lens=len(self.drawitems)
-                tmplst=[]
-                for i in range(lens):
-                    tmplst.append(self.drawitems[i])
-                self.undolst.append(tmplst)
+                self.mycopy()
                 self.myupdate()
         if self.mode==8:
             if event.button()==Qt.LeftButton:
@@ -265,11 +243,7 @@ class PaintBoard(QWidget):
                         x,y
                         )
                     self.drawitems[id].rotate(rotation)
-                    lens=len(self.drawitems)
-                    tmplst=[]
-                    for i in range(lens):
-                        tmplst.append(self.drawitems[i])
-                    self.undolst.append(tmplst)
+                    self.mycopy()
                     self.rotatepot.clear()
                     self.myupdate()    
     def mouseReleaseEvent(self, event):

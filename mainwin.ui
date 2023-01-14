@@ -19,7 +19,7 @@
      <rect>
       <x>0</x>
       <y>10</y>
-      <width>751</width>
+      <width>781</width>
       <height>571</height>
      </rect>
     </property>
@@ -28,55 +28,13 @@
    <widget class="QWidget" name="gridLayoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>760</x>
+      <x>810</x>
       <y>10</y>
-      <width>201</width>
-      <height>51</height>
+      <width>101</width>
+      <height>31</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="colorboard"/>
-   </widget>
-   <widget class="QDockWidget" name="dwgDrawings">
-    <property name="geometry">
-     <rect>
-      <x>760</x>
-      <y>150</y>
-      <width>201</width>
-      <height>431</height>
-     </rect>
-    </property>
-    <property name="allowedAreas">
-     <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
-    </property>
-    <property name="windowTitle">
-     <string>Drawings</string>
-    </property>
-    <widget class="QWidget" name="wgDrawings">
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <property name="spacing">
-       <number>0</number>
-      </property>
-      <property name="leftMargin">
-       <number>0</number>
-      </property>
-      <property name="topMargin">
-       <number>0</number>
-      </property>
-      <property name="rightMargin">
-       <number>0</number>
-      </property>
-      <property name="bottomMargin">
-       <number>0</number>
-      </property>
-      <item>
-       <widget class="QTreeView" name="trvDrawings">
-        <property name="contextMenuPolicy">
-         <enum>Qt::ActionsContextMenu</enum>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -144,11 +102,8 @@
    <addaction name="rec_action"/>
    <addaction name="fill_rect_action"/>
    <addaction name="separator"/>
-   <addaction name="caijian_action"/>
    <addaction name="pingyi_action"/>
    <addaction name="rotate_action"/>
-   <addaction name="actionplus"/>
-   <addaction name="actionminus"/>
    <addaction name="undo_action"/>
   </widget>
   <action name="choose_action">

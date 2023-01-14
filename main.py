@@ -18,7 +18,7 @@ class main_win(QMainWindow):
         model = QStandardItemModel()
         #self.main_ui.dwgDrawings
         self.board = PaintBoard()
-        self.cb=colorBoard()
+        self.cb=colorBoard(self.board)
         self.main_ui.gridLayout.addWidget(self.board)
         self.main_ui.colorboard.addWidget(self.cb)
         self.setAttribute(Qt.WA_DeleteOnClose)

@@ -1,3 +1,4 @@
+import copy
 import math
 from typing import List
 
@@ -44,7 +45,7 @@ class mypoint():
         copied = mypoint.__blank()
         for name, value in vars(self).items():
             if type(value) == list:
-                copied.__setattr__(name, [x for x in value])
+                copied.__setattr__(name, copy.deepcopy(value))
             else:
                 copied.__setattr__(name, value)
         return copied
@@ -81,7 +82,7 @@ class rec_drawitem():
         copied = rec_drawitem.__blank()
         for name, value in vars(self).items():
             if type(value) == list:
-                copied.__setattr__(name, [x for x in value])
+                copied.__setattr__(name, copy.deepcopy(value))
             else:
                 copied.__setattr__(name, value)
         return copied
@@ -158,7 +159,7 @@ class line_drawitem():
         copied = line_drawitem.__blank()
         for name, value in vars(self).items():
             if type(value) == list:
-                copied.__setattr__(name, [x for x in value])
+                copied.__setattr__(name, copy.deepcopy(value))
             else:
                 copied.__setattr__(name, value)
         return copied
@@ -178,7 +179,7 @@ class line_drawitem():
         self.pb.wid = self.wid
         self.pb.col = self.col
         self.pb.style = self.style
-        print("my wid is " + str(self.wid))
+        # print("my wid is " + str(self.wid))
         self.pb.draw_line(self.points[0][0], self.points[0][1],
                           self.points[1][0], self.points[1][1])
 
@@ -215,7 +216,7 @@ class circle_drawitem():
         copied = circle_drawitem.__blank()
         for name, value in vars(self).items():
             if type(value) == list:
-                copied.__setattr__(name, [x for x in value])
+                copied.__setattr__(name, copy.deepcopy(value))
             else:
                 copied.__setattr__(name, value)
         return copied
@@ -270,7 +271,7 @@ class fill_rec_drawitem():
         copied = fill_rec_drawitem.__blank()
         for name, value in vars(self).items():
             if type(value) == list:
-                copied.__setattr__(name, [x for x in value])
+                copied.__setattr__(name, copy.deepcopy(value))
             else:
                 copied.__setattr__(name, value)
         return copied

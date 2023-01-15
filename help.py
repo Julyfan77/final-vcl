@@ -182,7 +182,7 @@ class PaintBoard(QWidget):
                     self.drawfillRound(self.linexy[0][0], self.linexy[0][1], r)
                     self.linexy.clear()
 
-                    print(len(self.undolst))
+                    # print(len(self.undolst))
         if self.mode == FILLREC:  # fill_rec
             if event.button() == Qt.LeftButton:
                 if len(self.fill_recpoint) == 0:
@@ -239,7 +239,7 @@ class PaintBoard(QWidget):
                                              )
                     self.drawitems[id].rotate(rotation)
                     self.mycopy()
-                    self.rotatepot = []
+                    self.rotatepot.clear()
                     self.myupdate()
 
     def mouseReleaseEvent(self, event):
@@ -464,10 +464,8 @@ class PaintBoard(QWidget):
         self.update()
 
     def undo(self):
-        for step in self.undolst:
-            print([vars(x) for x in step])
         if len(self.undolst) == 0:
-            print("\n \n none to undo")
+            # print("\n \n none to undo")
             return
         if len(self.undolst) == 1:
             self.pixmap.fill(Qt.white)
@@ -512,7 +510,7 @@ class colorBoard(PaintBoard):
         return super().paintEvent(paintEvent)
 
     def load_color(self, col):
-        print(col)
+        # print(col)
         # self.widget.setStyleSheet('QWidget {background-color:%s}'%col.name())
         self.pb.col = col
         self.pixmap.fill(col)

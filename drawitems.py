@@ -236,8 +236,9 @@ class fill_rec_drawitem():
         self.y1 = y1
         self.y2 = y2
         self.style = style
-        self.Gx = 0
-        self.Gy = 0
+        if self.x1 and self.x2 and self.y1 and self.y2:
+            self.Gx = (self.x1 + self.x2) / 2
+            self.Gy = (self.y1 + self.y2) / 2
         self.col = col
         self.wid = wid
         self.pb = pb

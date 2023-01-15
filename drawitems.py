@@ -43,7 +43,10 @@ class mypoint():
     def mycopy(self) -> 'mypoint':
         copied = mypoint.__blank()
         for name, value in vars(self).items():
-            copied.__setattr__(name, value)
+            if type(value) == list:
+                copied.__setattr__(name, [x for x in value])
+            else:
+                copied.__setattr__(name, value)
         return copied
 
 
@@ -77,7 +80,10 @@ class rec_drawitem():
     def mycopy(self) -> 'rec_drawitem':
         copied = rec_drawitem.__blank()
         for name, value in vars(self).items():
-            copied.__setattr__(name, value)
+            if type(value) == list:
+                copied.__setattr__(name, [x for x in value])
+            else:
+                copied.__setattr__(name, value)
         return copied
 
     def updateG(self):
@@ -151,7 +157,10 @@ class line_drawitem():
     def mycopy(self) -> 'line_drawitem':
         copied = line_drawitem.__blank()
         for name, value in vars(self).items():
-            copied.__setattr__(name, value)
+            if type(value) == list:
+                copied.__setattr__(name, [x for x in value])
+            else:
+                copied.__setattr__(name, value)
         return copied
 
     def updateG(self):
@@ -205,7 +214,10 @@ class circle_drawitem():
     def mycopy(self) -> 'circle_drawitem':
         copied = circle_drawitem.__blank()
         for name, value in vars(self).items():
-            copied.__setattr__(name, value)
+            if type(value) == list:
+                copied.__setattr__(name, [x for x in value])
+            else:
+                copied.__setattr__(name, value)
         return copied
 
     def updateG(self):
@@ -257,7 +269,10 @@ class fill_rec_drawitem():
     def mycopy(self) -> 'fill_rec_drawitem':
         copied = fill_rec_drawitem.__blank()
         for name, value in vars(self).items():
-            copied.__setattr__(name, value)
+            if type(value) == list:
+                copied.__setattr__(name, [x for x in value])
+            else:
+                copied.__setattr__(name, value)
         return copied
 
     def updateG(self):

@@ -217,6 +217,8 @@ class PaintBoard(QWidget):
                 id = self.interact
                 if id == None:
                     return
+                if id >= len(self.drawitems):
+                    return
                 dx = -self.drawitems[id].Gx + x
                 dy = -self.drawitems[id].Gy + y
                 self.drawitems[id].move(dx, dy)
@@ -237,7 +239,7 @@ class PaintBoard(QWidget):
                                              )
                     self.drawitems[id].rotate(rotation)
                     self.mycopy()
-                    self.rotatepot.clear()
+                    self.rotatepot = []
                     self.myupdate()
 
     def mouseReleaseEvent(self, event):
@@ -462,7 +464,8 @@ class PaintBoard(QWidget):
         self.update()
 
     def undo(self):
-        print(self.undolst)
+        for step in self.undolst:
+            print([vars(x) for x in step])
         if len(self.undolst) == 0:
             print("\n \n none to undo")
             return
